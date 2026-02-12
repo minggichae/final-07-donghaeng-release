@@ -1,7 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://final-07-moa-release.vercel.app';
+const SITE_URL = 'https://final-07-moa-release.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -20,24 +20,16 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/og-img.png',
+        url: 'https://final-07-moa-release.vercel.app/images/og-img.png',
         width: 1200,
         height: 630,
         alt: 'Moa 모임 플랫폼 대표 이미지',
       },
     ],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Moa - 모임 플랫폼',
-    description: '함께하는 즐거움, Moa에서 다양한 모임을 찾고 참여하세요.',
-  },
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: SITE_URL,
   },
 };
 
