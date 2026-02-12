@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 
 export default function Notifications() {
   // useNoti 훅 사용 { 알람, 전체 읽기, 전체 삭제 }
-  const { notifications, markAllRead, markOneRead } = useNoti();
+  const { notifications, markAllRead, markOneRead, isLoaded } = useNoti();
 
   // zustand에서 유저정보 가져오기
   const { user } = useUserStore();
@@ -39,10 +39,24 @@ export default function Notifications() {
         <div className={styles['notifications-wrap']}>
           <h2>알림</h2>
           <div className={styles['btn']}>
-            <button onClick={markAllRead}>전체 읽음</button>
+            <button type="button" onClick={markAllRead}>
+              전체 읽음
+            </button>
           </div>
           <div aria-live="polite">
-            {notifications.length > 0 ? (
+            {!isLoaded ? (
+              <div className={styles['notifications-wrap']}>
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className={styles['skeleton-item']}>
+                    <div className={styles['skeleton-img']} />
+                    <div className={styles['skeleton-txt']}>
+                      <div className={styles['skeleton-title']} />
+                      <div className={styles['skeleton-desc']} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : notifications.length > 0 ? (
               <div className={styles['notifications-wrap']}>
                 {/* 맵을 생성하면서 알림 아이템 컴포넌트 불러오기 */}
                 {notifications.map((noti) => (

@@ -107,115 +107,116 @@ export default function Modify() {
   }, [hasHydrated, accessToken, router]);
 
   return (
-    <>
-      <DefaultLayout>
-        <form className={styles['modify-form']} action={formAction}>
-          {/* 서버에 보내기 위한 토큰과 id 값 */}
-          <input type="hidden" name="accessToken" value={user?.token?.accessToken || ''} />
-          <input type="hidden" name="_id" value={user?._id || ''} />
-          <input type="hidden" name="email" value={user?.email || ''} />
-          <input type="hidden" name="image" value={uploadImagePath} />
-          <input type="hidden" name="region" value={selectedDistrict ? `${selectedCity} ${selectedDistrict}` : selectedCity} />
-          <input type="file" accept="image/*" hidden ref={fileInput} onChange={handleImageChange} />
-          <main className={styles['modify-div']}>
-            <div className={styles['profile-top']}>
-              <div className={styles['img-wrapper']}>
-                <Image src={profileImage} alt="프로필이미지" width={165} height={165} className={styles['profile-img']} />
-                <button type="button" className={styles['btn-camera']} onClick={() => fileInput.current?.click()}>
-                  <Image src={camera.src} width={29} height={27} alt="카메라이미지" />
-                </button>
-              </div>
-
-              <div className={styles['btn-div']}>
-                <Link href="/mypage">
-                  <button type="button" className={styles['btn-cancel']}>
-                    취소
-                  </button>
-                </Link>
-                <button type="submit" className={styles['btn-complete']} disabled={isUploading || isPending}>
-                  {isUploading ? '업로드중...' : isPending ? '수정중...' : '완료'}
-                </button>
-              </div>
+    <DefaultLayout>
+      <form className={styles['modify-form']} action={formAction}>
+        {/* 서버에 보내기 위한 토큰과 id 값 */}
+        <input type="hidden" name="accessToken" value={user?.token?.accessToken || ''} />
+        <input type="hidden" name="_id" value={user?._id || ''} />
+        <input type="hidden" name="email" value={user?.email || ''} />
+        <input type="hidden" name="image" value={uploadImagePath} />
+        <input type="hidden" name="region" value={selectedDistrict ? `${selectedCity} ${selectedDistrict}` : selectedCity} />
+        <input type="file" accept="image/*" hidden ref={fileInput} onChange={handleImageChange} />
+        <main className={styles['modify-div']}>
+          <div className={styles['profile-top']}>
+            <div className={styles['img-wrapper']}>
+              <Image src={profileImage} alt={`${user?.name || '사용자'} 프로필 이미지`} width={165} height={165} className={styles['profile-img']} />
+              <button type="button" className={styles['btn-camera']} onClick={() => fileInput.current?.click()} aria-label="프로필 사진 변경">
+                <Image src={camera.src} width={29} height={27} alt="" aria-hidden="true" />
+              </button>
             </div>
-            <div>
-              <div className={styles['nickname-div']}>
-                <span>닉네임</span>
-                <input name="name" defaultValue={user?.name || '닉네임'}></input>
+
+            <div className={styles['btn-div']}>
+              <Link href="/mypage">
+                <button type="button" className={styles['btn-cancel']}>
+                  취소
+                </button>
+              </Link>
+              <button type="submit" className={styles['btn-complete']} disabled={isUploading || isPending}>
+                {isUploading ? '업로드중...' : isPending ? '수정중...' : '완료'}
+              </button>
+            </div>
+          </div>
+          <div>
+            <div className={styles['nickname-div']}>
+              <label htmlFor="nickname">닉네임</label>
+              <input id="nickname" name="name" defaultValue={user?.name || '닉네임'}></input>
+            </div>
+
+            <div className={styles['introduce-div']}>
+              <label htmlFor="comment">소개</label>
+              <textarea id="comment" name="comment" maxLength={50} defaultValue={user?.comment || '나의 소개를 쓰는 공간'}></textarea>
+            </div>
+            <div className={styles['address-div']}>
+              <div>
+                <label htmlFor="city">지역 </label>
+                <div className={styles['select-wrapper']}>
+                  <select
+                    id="city"
+                    value={selectedCity}
+                    onChange={(e) => {
+                      setSelectedCity(e.target.value);
+                      setSelectedDistrict('');
+                    }}
+                    className={styles['city']}
+                  >
+                    <option value="">지역</option>
+                    {Object.keys(regionData).map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                  <Image src={down} alt="" aria-hidden="true" width={16} height={16} />
+                </div>
               </div>
 
-              <div className={styles['introduce-div']}>
-                <span>소개</span>
-                <textarea name="comment" maxLength={50} defaultValue={user?.comment || '나의 소개를 쓰는 공간'}></textarea>
-              </div>
-              <div className={styles['address-div']}>
-                <div>
-                  <span>지역 </span>
-                  <div className={styles['select-wrapper']}>
-                    <select
-                      value={selectedCity}
-                      onChange={(e) => {
-                        setSelectedCity(e.target.value);
-                        setSelectedDistrict('');
-                      }}
-                      className={styles['city']}
-                    >
-                      <option value="">지역</option>
-                      {Object.keys(regionData).map((city) => (
-                        <option key={city} value={city}>
-                          {city}
+              <div>
+                <label htmlFor="district" className={styles['district-label']}>
+                  시/군/구{' '}
+                </label>
+                <div className={styles['select-wrapper']}>
+                  <select id="district" value={selectedDistrict} disabled={!selectedCity} className={styles['district']} onChange={(e) => setSelectedDistrict(e.target.value)}>
+                    <option value="">{selectedCity ? '시/군/구' : '지역을 선택해주세요'}</option>
+                    {selectedCity &&
+                      regionData[selectedCity]?.map((district) => (
+                        <option key={district} value={district}>
+                          {district}
                         </option>
                       ))}
-                    </select>
-                    <img src={down.src} alt="화살표" />
-                  </div>
-                </div>
-
-                <div>
-                  <span className={styles['district-label']}>시/군/구 </span>
-                  <div className={styles['select-wrapper']}>
-                    <select value={selectedDistrict} disabled={!selectedCity} className={styles['district']} onChange={(e) => setSelectedDistrict(e.target.value)}>
-                      <option value="">{selectedCity ? '시/군/구' : '지역을 선택해주세요'}</option>
-                      {selectedCity &&
-                        regionData[selectedCity]?.map((district) => (
-                          <option key={district} value={district}>
-                            {district}
-                          </option>
-                        ))}
-                    </select>
-                    <img src={down.src} alt="화살표" />
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles['etc-div']}>
-                <div>
-                  <span>나이</span>
-                  <div className={styles['select-wrapper']}>
-                    <select name="age" defaultValue={user?.age || ''}>
-                      <option value="10">10대</option>
-                      <option value="20">20대</option>
-                      <option value="30">30대</option>
-                      <option value="40">40대 이상</option>
-                    </select>
-                    <img src={down.src} alt="화살표" />
-                  </div>
-                </div>
-
-                <div>
-                  <span>성별</span>
-                  <div className={styles['select-wrapper']}>
-                    <select name="gender" defaultValue={user?.gender || '성별'}>
-                      <option value="남">남</option>
-                      <option value="여">여</option>
-                    </select>
-                    <img src={down.src} alt="화살표" />
-                  </div>
+                  </select>
+                  <Image src={down} alt="" aria-hidden="true" width={16} height={16} />
                 </div>
               </div>
             </div>
-          </main>
-        </form>
-      </DefaultLayout>
-    </>
+
+            <div className={styles['etc-div']}>
+              <div>
+                <label htmlFor="age">나이</label>
+                <div className={styles['select-wrapper']}>
+                  <select id="age" name="age" defaultValue={user?.age || ''}>
+                    <option value="10">10대</option>
+                    <option value="20">20대</option>
+                    <option value="30">30대</option>
+                    <option value="40">40대 이상</option>
+                  </select>
+                  <Image src={down} alt="" aria-hidden="true" width={16} height={16} />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="gender">성별</label>
+                <div className={styles['select-wrapper']}>
+                  <select id="gender" name="gender" defaultValue={user?.gender || '성별'}>
+                    <option value="남">남</option>
+                    <option value="여">여</option>
+                  </select>
+                  <Image src={down} alt="" aria-hidden="true" width={16} height={16} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </form>
+    </DefaultLayout>
   );
 }

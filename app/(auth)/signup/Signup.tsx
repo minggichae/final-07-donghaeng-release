@@ -4,6 +4,7 @@ import style from './signup.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useUserStore from '@/zustand/userStore';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Signup() {
   const { user } = useUserStore();
@@ -164,7 +165,7 @@ export default function Signup() {
       }
     } catch (error) {
       console.error(error);
-      alert('중복확인에 실패했습니다.');
+      toast.error('중복확인에 실패했습니다.');
     }
   };
 
@@ -307,14 +308,14 @@ export default function Signup() {
       const data = await res.json();
 
       if (data.ok === 1) {
-        alert('회원 가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
-        router.push('/login');
+        toast.success('회원 가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+        setTimeout(() => router.push('/login'), 1500);
       } else {
-        alert(data.message || '회원가입에 실패했습니다.');
+        toast.error(data.message || '회원가입에 실패했습니다.');
       }
     } catch (error) {
       console.error(error);
-      alert('일시적인 네트워크 문제가 발생했습니다.');
+      toast.error('일시적인 네트워크 문제가 발생했습니다.');
     } finally {
       setIsSubmitting(false);
     }
@@ -322,22 +323,24 @@ export default function Signup() {
 
   return (
     <main className={style['main']}>
+      <Toaster position="top-center" />
       <div className={style['signup-wrap']}>
         <form onSubmit={handleSubmit}>
           {/* ==================== 첫 번째 페이지 ==================== */}
           {currentStep === 1 && (
             <section className={style['signup-step']}>
               <button type="button" className={`${style['back-btn']} ${style['first-btn']}`} onClick={handlePrevStep} aria-label="이전페이지">
-                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg aria-hidden="true" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M0.439367 8.09227C-0.146456 8.59433 -0.146456 9.40968 0.439367 9.91175L9.43761 17.6235C10.0234 18.1255 10.9748 18.1255 11.5606 17.6235C12.1465 17.1214 12.1465 16.306 11.5606 15.804L3.62156 9L11.5559 2.19603C12.1418 1.69396 12.1418 0.878612 11.5559 0.376548C10.9701 -0.125516 10.0187 -0.125516 9.43292 0.376548L0.43468 8.08825L0.439367 8.09227Z"
                     fill="black"
                   />
                 </svg>
               </button>
-              <div className={style['logo-img']}></div>
+              <div className={style['logo-img']} role="img" aria-label="Moa 로고"></div>
+              <h1 className="sr-only">회원가입</h1>
 
-              <fieldset className={style['email-fieldset']}>
+              <div className={style['email-fieldset']}>
                 <div>
                   <label className={style['label']} htmlFor="email">
                     이메일
@@ -349,23 +352,23 @@ export default function Signup() {
                 </button>
                 {errors.email && <span id="signup-email-error" role="alert" className={`${style['field-message']} ${style['field-email']}`}>{errors.email}</span>}
                 {successMessages.email && <span id="signup-email-success" className={`${style['ok-message']} ${style['field-email']}`}>{successMessages.email}</span>}
-              </fieldset>
+              </div>
 
-              <fieldset className={style['password-fieldset']}>
+              <div>
                 <label className={style['label']} htmlFor="password">
                   비밀번호
                 </label>
                 <input className={style['input']} name="password" value={formData.password} onChange={handleChange} type="password" id="password" placeholder="비밀번호를 입력해 주세요" required aria-describedby={errors.password ? 'signup-password-error' : undefined} />
                 {errors.password && <span id="signup-password-error" role="alert" className={`${style['field-message']} ${style['field-password']}`}>{errors.password}</span>}
-              </fieldset>
+              </div>
 
-              <fieldset className={style['password-fieldset']}>
+              <div>
                 <label className={style['label']} htmlFor="password-check">
                   비밀번호 확인
                 </label>
                 <input className={style['input']} name="passwordCheck" value={formData.passwordCheck} onChange={handleChange} type="password" id="password-check" placeholder="비밀번호를 한번 더 입력해 주세요" required aria-describedby={errors.passwordCheck ? 'signup-passwordcheck-error' : undefined} />
                 {errors.passwordCheck && <span id="signup-passwordcheck-error" role="alert" className={`${style['field-message']} ${style['field-password']}`}>{errors.passwordCheck}</span>}
-              </fieldset>
+              </div>
 
               <button type="button" onClick={handleNextStep} className={style['btn']}>
                 다음으로
@@ -377,16 +380,16 @@ export default function Signup() {
           {currentStep === 2 && (
             <section className={style['signup-step']}>
               <button type="button" className={style['back-btn']} onClick={handlePrevStep} aria-label="이전페이지">
-                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg aria-hidden="true" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M0.439367 8.09227C-0.146456 8.59433 -0.146456 9.40968 0.439367 9.91175L9.43761 17.6235C10.0234 18.1255 10.9748 18.1255 11.5606 17.6235C12.1465 17.1214 12.1465 16.306 11.5606 15.804L3.62156 9L11.5559 2.19603C12.1418 1.69396 12.1418 0.878612 11.5559 0.376548C10.9701 -0.125516 10.0187 -0.125516 9.43292 0.376548L0.43468 8.08825L0.439367 8.09227Z"
                     fill="black"
                   />
                 </svg>
               </button>
-              <div className={style['logo-img']}></div>
+              <div className={style['logo-img']} role="img" aria-label="Moa 로고"></div>
 
-              <fieldset className={style['nickname-fieldset']}>
+              <div className={style['nickname-fieldset']}>
                 <div>
                   <label className={style['label']} htmlFor="nickname">
                     닉네임
@@ -398,14 +401,13 @@ export default function Signup() {
                 </button>
                 {errors.name && <span id="signup-name-error" role="alert" className={`${style['field-message']} ${style['field-nickname']}`}>{errors.name}</span>}
                 {successMessages.name && <span id="signup-name-success" className={`${style['ok-message']} ${style['field-nickname']}`}>{successMessages.name}</span>}
-              </fieldset>
+              </div>
 
-              <fieldset className={style['region-fieldset']}>
+              <div className={style['region-fieldset']}>
                 <div className={style['field-div']}>
                   <label className={style['label']} htmlFor="region">
                     지역
                   </label>
-                  <br />
                   <select className={style['select']} name="region" value={formData.region} onChange={handleChange} id="region" required aria-describedby={errors.region ? 'signup-region-error' : undefined}>
                     <option value="">지역을 선택해 주세요</option>
                     <option value="서울특별시">서울특별시</option>
@@ -427,17 +429,17 @@ export default function Signup() {
                     <option value="제주특별자치도">제주특별자치도</option>
                   </select>
                 </div>
-                <svg className={style['svg-1']} width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg aria-hidden="true" className={style['svg-1']} width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M8.09227 11.5606C8.59433 12.1465 9.40968 12.1465 9.91175 11.5606L17.6235 2.56239C18.1255 1.97657 18.1255 1.02519 17.6235 0.439367C17.1214 -0.146456 16.306 -0.146456 15.804 0.439367L9 8.37844L2.19603 0.444053C1.69396 -0.14177 0.878612 -0.14177 0.376548 0.444053C-0.125516 1.02988 -0.125516 1.98125 0.376548 2.56708L8.08825 11.5653L8.09227 11.5606Z"
                     fill="black"
                   />
                 </svg>
-              </fieldset>
+              </div>
               {errors.region && <span id="signup-region-error" role="alert" className={style['field-message']}>{errors.region}</span>}
 
               <div className={style['fieldset-wrap']}>
-                <fieldset className={style['age-fieldset']}>
+                <div className={style['age-fieldset']}>
                   <div className={style['field-div']}>
                     <label className={style['label']} htmlFor="age">
                       나이
@@ -451,17 +453,17 @@ export default function Signup() {
                         <option value="40">40대 이상</option>
                       </select>
                     </div>
-                    <svg className={style['svg-2']} width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg aria-hidden="true" className={style['svg-2']} width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M8.09227 11.5606C8.59433 12.1465 9.40968 12.1465 9.91175 11.5606L17.6235 2.56239C18.1255 1.97657 18.1255 1.02519 17.6235 0.439367C17.1214 -0.146456 16.306 -0.146456 15.804 0.439367L9 8.37844L2.19603 0.444053C1.69396 -0.14177 0.878612 -0.14177 0.376548 0.444053C-0.125516 1.02988 -0.125516 1.98125 0.376548 2.56708L8.08825 11.5653L8.09227 11.5606Z"
                         fill="black"
                       />
                     </svg>
                   </div>
-                </fieldset>
+                </div>
                 {errors.age && <span id="signup-age-error" role="alert" className={style['field-message']}>{errors.age}</span>}
 
-                <fieldset className={style['gender-fieldset']}>
+                <div className={style['gender-fieldset']}>
                   <div className={style['field-div']}>
                     <label className={style['label']} htmlFor="gender">
                       성별
@@ -472,13 +474,13 @@ export default function Signup() {
                       <option value="여">여</option>
                     </select>
                   </div>
-                  <svg className={style['svg-3']} width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg aria-hidden="true" className={style['svg-3']} width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M8.09227 11.5606C8.59433 12.1465 9.40968 12.1465 9.91175 11.5606L17.6235 2.56239C18.1255 1.97657 18.1255 1.02519 17.6235 0.439367C17.1214 -0.146456 16.306 -0.146456 15.804 0.439367L9 8.37844L2.19603 0.444053C1.69396 -0.14177 0.878612 -0.14177 0.376548 0.444053C-0.125516 1.02988 -0.125516 1.98125 0.376548 2.56708L8.08825 11.5653L8.09227 11.5606Z"
                       fill="black"
                     />
                   </svg>
-                </fieldset>
+                </div>
                 {errors.gender && <span id="signup-gender-error" role="alert" className={style['field-message']}>{errors.gender}</span>}
               </div>
 

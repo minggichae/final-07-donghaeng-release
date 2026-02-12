@@ -8,7 +8,7 @@ export default function Footer() {
       <div className={styles[`inner-wrapper`]}>
         <div className={styles.top}>
           <div className={styles.brand}>
-            <Image src="/logo/logo.svg" alt="동행 로고" width={60} height={53} />
+            <Image src="/logo/logo.svg" alt="Moa 로고" width={60} height={53} />
             <p className={styles.description}>취미와 관심사를 함께할 사람을 찾아보세요!</p>
           </div>
           <div className={styles.contact}>
@@ -19,11 +19,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <nav className={styles.nav}>
+        <nav aria-label="하단 메뉴" className={styles.nav}>
           <Link href="/terms">이용약관</Link>
-          <span className={styles.divider}>|</span>
+          <span className={styles.divider} aria-hidden="true">|</span>
           <Link href="/privacy">개인정보처리방침</Link>
-          <span className={styles.divider}>|</span>
+          <span className={styles.divider} aria-hidden="true">|</span>
           <Link href="/faq">FAQ</Link>
         </nav>
 

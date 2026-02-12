@@ -64,38 +64,36 @@ export default function NavigateButton({ meeting }: { meeting: Meetings }) {
   };
 
   return (
-    <>
-      <div className={style.buttonContainer}>
-        {user?._id === meeting.seller_id ? (
-          // 호스트일 때: 관리하기, 수정하기, 삭제하기
-          <div className={style.hostMode}>
-            <Link className={style.adminBtn} href={`/manage/${meeting._id}`}>
-              관리하기
-            </Link>
-            <Link className={style.editBtn} href={`/meetings/${meeting._id}/edit`}>
-              수정하기
-            </Link>
-            <form action={formAction} onSubmit={handleSubmit}>
-              <input type="hidden" name="accessToken" value={user.token?.accessToken} />
-              <input type="hidden" name="_id" value={meeting._id} />
-              <button className={style.deleteBtn}>삭제하기</button>
-            </form>
-          </div>
-        ) : (
-          // 일반 사용자일 때: 신청하기 / 신청완료
-          <div className={style.userMode}>
-            {isApplied ? (
-              <button className={style.appliedBtn} disabled>
-                신청완료
-              </button>
-            ) : (
-              <button onClick={handleApplyClick} className={isLoading ? style.appliedBtn : style.applyBtn} disabled={isLoading}>
-                {isLoading ? '확인 중...' : '신청하기'}
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-    </>
+    <div className={style.buttonContainer}>
+      {user?._id === meeting.seller_id ? (
+        // 호스트일 때: 관리하기, 수정하기, 삭제하기
+        <div className={style.hostMode}>
+          <Link className={style.adminBtn} href={`/manage/${meeting._id}`}>
+            관리하기
+          </Link>
+          <Link className={style.editBtn} href={`/meetings/${meeting._id}/edit`}>
+            수정하기
+          </Link>
+          <form action={formAction} onSubmit={handleSubmit}>
+            <input type="hidden" name="accessToken" value={user.token?.accessToken} />
+            <input type="hidden" name="_id" value={meeting._id} />
+            <button className={style.deleteBtn}>삭제하기</button>
+          </form>
+        </div>
+      ) : (
+        // 일반 사용자일 때: 신청하기 / 신청완료
+        <div className={style.userMode}>
+          {isApplied ? (
+            <button className={style.appliedBtn} disabled>
+              신청완료
+            </button>
+          ) : (
+            <button onClick={handleApplyClick} className={isLoading ? style.appliedBtn : style.applyBtn} disabled={isLoading}>
+              {isLoading ? '확인 중...' : '신청하기'}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

@@ -22,6 +22,66 @@
   font-size: 16px;
 }
 
+/* 스켈레톤 UI */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton-item {
+  min-width: 260px;
+  display: flex;
+  background-color: var(--bg-white);
+  margin: 20px auto;
+  border: 5px solid var(--border-gray-25);
+  border-radius: 25px;
+  gap: 20px;
+  max-height: 165px;
+  overflow: hidden;
+}
+
+.skeleton-img {
+  width: 45%;
+  max-width: 170px;
+  height: 125px;
+  border-radius: 25px;
+  margin: 20px 0 20px 25px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeleton-txt {
+  margin: 20px 45px 20px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-title {
+  width: 70%;
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeleton-desc {
+  width: 50%;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
 /* 전체 읽음 버튼 */
 .btn {
   display: flex;

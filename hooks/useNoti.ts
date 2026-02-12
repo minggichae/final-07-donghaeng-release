@@ -12,7 +12,7 @@ export function useNoti() {
   const user = useUserStore((state) => state.user);
   const userId = user?._id;
 
-  const { notiSocket, setNotiSocket, notifications, setNotifications } = useNotiStore();
+  const { notiSocket, setNotiSocket, notifications, setNotifications, isLoaded, setIsLoaded } = useNotiStore();
 
   const accessToken = useUserStore.getState().user?.token?.accessToken;
 
@@ -61,13 +61,17 @@ export function useNoti() {
         // 전체 알림 목록으로 갱신
         setNotifications(data.list);
       }
+      // 데이터 수신 완료
+      setIsLoaded(true);
     });
 
     socket.on('connect_error', (err) => {
       console.error('알림서버 연결 실패:', err.message);
       isConnecting = false;
+      // 연결 실패 시에도 로딩 완료 처리
+      setIsLoaded(true);
     });
-  }, [userId, notiSocket, setNotiSocket, setNotifications]);
+  }, [userId, notiSocket, setNotiSocket, setNotifications, setIsLoaded]);
 
   // 전체 읽음 처리, 로컬에서 isRead: true로 처리
   const markAllRead = async () => {
@@ -106,5 +110,5 @@ export function useNoti() {
   };
 
   // 알림 목록, 전체 읽음, 개별 읽음 반환
-  return { notifications, setNotifications, markAllRead, markOneRead };
+  return { notifications, setNotifications, markAllRead, markOneRead, isLoaded };
 }

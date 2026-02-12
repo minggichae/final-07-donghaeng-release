@@ -15,6 +15,7 @@ import { getMyMeetingsAccess } from '@/lib/meetings';
 import { Apply } from '@/types/apply';
 import MeetingCard from '@/app/(view)/history/MeetingCard';
 import { useRouter } from 'next/navigation'; //next/router면 안됨 사유 우리는 App Router를 쓰니깐@@!
+import HistorySwiper from '@/app/(view)/history/HistorySwiper';
 
 export default function HistoryPage() {
   const { user } = useUserStore();
@@ -28,10 +29,12 @@ export default function HistoryPage() {
   const [isEmpty, setIsEmpty] = useState(false);
   // 신청한 모임이 있는지 체크
   const hasHydrated = useUserStore((state) => state.hasHydrated);
-  /* 
+
+  const [isLoading, setIsLoading] = useState(true);
+  /*
   zustand의 persist(localStorage) 복원완료의 여부.
- 
-  새로고침후 localStorage에서 데이터를 불러오는 시간이 필요하기때문에 
+
+  새로고침후 localStorage에서 데이터를 불러오는 시간이 필요하기때문에
   hasHydrated가 false면 복원중이기때문에 기다려야함
   이게 없을경우? 새로고침시 user가 null이 되어서 로그인 페이지로 영원히...간다
   */
@@ -67,18 +70,18 @@ export default function HistoryPage() {
           return filter === 'after' ? isPast : !isPast;
           /*
             // filter === 'after' (참여 후)
-            isPast === true  → true  리턴 → 포함 
-            isPast === false → false 리턴 → 제외 
+            isPast === true  → true  리턴 → 포함
+            isPast === false → false 리턴 → 제외
 
             ㄴ> 삼항 연산자 앞부분을 실행하니까 과거 모임만 보임!
 
             // filter === 'before' (참여 전)
-            isPast === true  → false 리턴 → 제외 
-            isPast === false → true  리턴 → 포함 
-            
+            isPast === true  → false 리턴 → 제외
+            isPast === false → true  리턴 → 포함
+
             ㄴ> after가 false니까 삼항 연산자 뒷부분 실행 미래 모임만 보임
 
-            쉽게 설명해서 
+            쉽게 설명해서
             if(모임이 과거인가요?) 네!> 보여줌
             if(모임이 과거인가요?) 아니요!> 미래만 보여줌
           */
@@ -111,6 +114,7 @@ export default function HistoryPage() {
         setIsEmpty(false);
         //있으면 res에 데이터 저장,'신모없' 메시지 숨킴
       }
+      setIsLoading(false);
 
       console.log('데이터를 잘 불러와주나요', res, '');
     };
@@ -119,10 +123,7 @@ export default function HistoryPage() {
   }, [hasHydrated, accessToken, router]);
   // [...]: 의존성배열. 이 값들이 바뀌면 useEffect 다시 실행
 
-  if (!hasHydrated) return null;
-  // 복원 안끝났으면 아무것도 안보여줌, 화면 깜빡임 방지. useEffect안에도 있지만 이건 렌더링을 막는용도
-
-  if (!accessToken) {
+  if (!accessToken && hasHydrated) {
     return null;
   }
   // 토큰 없으면 아무것도 안보여줌. 위에서 로그인 페이지로 보냈으니까 이코드는 실행이 안되지만 보험용으로 넣어놓음
@@ -131,57 +132,42 @@ export default function HistoryPage() {
   // 필터링된 모임 목록 계산. 렌더링할때마다(필터가 바뀔때마다) 다시 계산됨
 
   return (
-    <>
-      <main className={style.container}>
-        {
-          <div className={style.contentWrapper}>
-            <h1 className={style.title}>모임 조회</h1>
-            <div className={style.btnGroup}>
-              <button className={`${style.allBtn}  ${filter === 'all' ? style.active : ''} `} onClick={() => setFilter('all')}>
-                전체
-              </button>
-              <button className={`${style.beforeBtn}  ${filter === 'before' ? style.active : ''} `} onClick={() => setFilter('before')}>
-                참여 전
-              </button>
-              <button className={`${style.afterBtn} ${filter === 'after' ? style.active : ''} `} onClick={() => setFilter('after')}>
-                참여 후
-              </button>
-            </div>
-            {isEmpty ? (
-              <div className={style.empty}> 신청한 모임이 없습니다.</div>
-            ) : (
-              <Swiper
-                modules={[Pagination]}
-                spaceBetween={40}
-                slidesPerView={'auto'}
-                centeredSlides={true}
-                pagination={{
-                  clickable: true,
-                }}
-                className={style.swiper}
-                breakpoints={{
-                  0: {
-                    enabled: false, // 모바일
-                    centeredSlides: false,
-                  },
-                  1024: {
-                    enabled: true, // 웹
-                    centeredSlides: true,
-                  },
-                }}
-              >
-                {filteredMeetings.map((apply) =>
-                  apply.products.map((meeting) => (
-                    <SwiperSlide key={meeting._id}>
-                      <MeetingCard meeting={meeting} isPast={isPastMeeting(meeting.extra?.date || '')} />
-                    </SwiperSlide>
-                  ))
-                )}
-              </Swiper>
-            )}
+    <main className={style.container}>
+      {
+        <div className={style.contentWrapper}>
+          <h1 className={style.title}>모임 조회</h1>
+          <div className={style.btnGroup} role="group" aria-label="모임 필터">
+            <button className={`${style.allBtn}  ${filter === 'all' ? style.active : ''} `} aria-pressed={filter === 'all'} onClick={() => setFilter('all')}>
+              전체
+            </button>
+            <button className={`${style.beforeBtn}  ${filter === 'before' ? style.active : ''} `} aria-pressed={filter === 'before'} onClick={() => setFilter('before')}>
+              참여 전
+            </button>
+            <button className={`${style.afterBtn} ${filter === 'after' ? style.active : ''} `} aria-pressed={filter === 'after'} onClick={() => setFilter('after')}>
+              참여 후
+            </button>
           </div>
-        }
-      </main>
-    </>
+          {!hasHydrated || isLoading ? (
+            <div className={style['skeleton-list']}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className={style['skeleton-card']}>
+                  <div className={style['skeleton-img']} />
+                  <div className={style['skeleton-info']}>
+                    <div className={style['skeleton-title']} />
+                    <div className={style['skeleton-line']} />
+                    <div className={style['skeleton-line']} />
+                    <div className={style['skeleton-line-short']} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : isEmpty ? (
+            <p className={style.empty}>신청한 모임이 없습니다.</p>
+          ) : (
+            <HistorySwiper filteredMeetings={filteredMeetings} isPastMeeting={isPastMeeting} />
+          )}
+        </div>
+      }
+    </main>
   );
 }

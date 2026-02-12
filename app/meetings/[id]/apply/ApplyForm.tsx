@@ -72,12 +72,12 @@ export default function ApplyForm({ meeting, id }: ApplyFormProps) {
       <form className={styles['apply-body']} onSubmit={handleSubmit}>
         <h1 className={styles['apply-title']}>모임 신청</h1>
         <div className={styles['question-div']}>
-          <h3>{meeting.extra.survey1}</h3>
-          <textarea name="answer1" required></textarea>
+          <label htmlFor="answer1"><h3>{meeting.extra.survey1}</h3></label>
+          <textarea id="answer1" name="answer1" required></textarea>
         </div>
         <div className={styles['question-div']}>
-          <h3>{meeting.extra.survey2}</h3>
-          <textarea name="answer2" required></textarea>
+          <label htmlFor="answer2"><h3>{meeting.extra.survey2}</h3></label>
+          <textarea id="answer2" name="answer2" required></textarea>
         </div>
         <div className={styles['btn-div']}>
           <button type="submit" className={styles['btn-apply']} disabled={isSubmitting}>

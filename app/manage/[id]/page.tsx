@@ -1,6 +1,13 @@
+import type { Metadata } from 'next';
 import styles from './Manage.module.css';
 import DefaultLayout from '@/app/components/DefaultLayout';
 import ManageContent from './ManageContent';
+
+export const metadata: Metadata = {
+  title: '신청자 목록 - Moa',
+  description: '모임 신청자 목록을 확인하고 승인 또는 거절하세요.',
+  robots: { index: false, follow: false },
+};
 
 interface ManagePageProps {
   params: Promise<{ id: string }>;

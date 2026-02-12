@@ -91,6 +91,7 @@
   justify-content: center;
   align-items: center;
   font-family: var(--main-font);
+  margin-bottom: 20px;
 }
 
 .login-help {

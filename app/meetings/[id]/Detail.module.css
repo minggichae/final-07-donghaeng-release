@@ -141,7 +141,6 @@
 .userCharacterImage {
   width: 150px;
   height: 150px;
-  background: url('/images/img2.png') center/cover;
   border-radius: 25px;
   display: flex;
   align-items: center;

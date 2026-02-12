@@ -16,15 +16,14 @@ export default function BookmarkMeetingCard({ meeting }: { meeting: Meetings }) 
 
   return (
     <article className={styles[`article-wrapper`]}>
-      <div className={styles.bookmarkIcon} aria-label="북마크">
+      <div className={styles.bookmarkIcon}>
         <BookmarkButton meetingId={meeting._id} width={23} height={29} />
       </div>
       <div className={styles.card}>
         <div className={styles.cardContent}>
-          <figure className={styles.imageWrapper}>
-            <Image className={styles.characterImage} src={imageUrl} width={130} height={130} alt="모임 대표 이미지" unoptimized />
-            <figcaption className="sr-only">모임 대표 이미지</figcaption>
-          </figure>
+          <div className={styles.imageWrapper}>
+            <Image className={styles.characterImage} src={imageUrl} width={130} height={130} alt={`${meeting.name} 모임 대표 이미지`} unoptimized />
+          </div>
           <div className={styles.infoWrapper}>
             <h2 className={styles.cardTitle}>{meeting.name}</h2>
             <ul className={styles.infoList}>
@@ -57,8 +56,8 @@ export default function BookmarkMeetingCard({ meeting }: { meeting: Meetings }) 
             </ul>
           </div>
         </div>
-        <Link href={`/meetings/${meeting._id}`} className={styles.arrowIcon}>
-          <Image src="/icon/arrow.svg" alt="상세보기" width={19} height={12} />
+        <Link href={`/meetings/${meeting._id}`} className={styles.arrowIcon} aria-label={`${meeting.name} 상세보기`}>
+          <Image src="/icon/arrow.svg" alt="" width={19} height={12} />
         </Link>
       </div>
     </article>

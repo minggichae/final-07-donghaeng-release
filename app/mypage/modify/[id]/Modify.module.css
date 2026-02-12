@@ -136,7 +136,7 @@
 .introduce-div,
 .address-div,
 .etc-div {
-  span {
+  label {
     display: inline-block;
     font-size: 18px;
     font-family: var(--main-font);

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './MobileSidebar.module.css';
 import useUserStore from '@/zustand/userStore';
 import useBookmarkStore from '@/zustand/bookmarkStore';
@@ -15,6 +16,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   const user = useUserStore((state) => state.user);
   const resetUser = useUserStore((state) => state.resetUser);
   const resetBookmark = useBookmarkStore((state) => state.resetBookmark);
+  const pathname = usePathname();
   const userName = user?.name ?? '사용자';
 
   const handleLogout = () => {
@@ -48,19 +50,19 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
               </div>
               <ul>
                 <li>
-                  <Link href="/mypage">마이페이지</Link>
+                  <Link href="/mypage" aria-current={pathname.startsWith('/mypage') ? 'page' : undefined}>마이페이지</Link>
                 </li>
                 <li>
-                  <Link href="/meetings">모임</Link>
+                  <Link href="/meetings" aria-current={pathname.startsWith('/meetings') ? 'page' : undefined}>모임</Link>
                 </li>
                 <li>
-                  <Link href="/bookmarks">북마크</Link>
+                  <Link href="/bookmarks" aria-current={pathname.startsWith('/bookmarks') ? 'page' : undefined}>북마크</Link>
                 </li>
                 <li>
-                  <Link href="/history">모임 조회</Link>
+                  <Link href="/history" aria-current={pathname.startsWith('/history') ? 'page' : undefined}>모임 조회</Link>
                 </li>
                 <li>
-                  <Link href="/map">모임 지도</Link>
+                  <Link href="/map" aria-current={pathname.startsWith('/map') ? 'page' : undefined}>모임 지도</Link>
                 </li>
               </ul>
             </div>
@@ -71,16 +73,16 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
         ) : (
           <ul className={styles[`menu-wrapper`]}>
             <li>
-              <Link href="/login">로그인</Link>
+              <Link href="/login" aria-current={pathname === '/login' ? 'page' : undefined}>로그인</Link>
             </li>
             <li>
-              <Link href="/signup">회원가입</Link>
+              <Link href="/signup" aria-current={pathname === '/signup' ? 'page' : undefined}>회원가입</Link>
             </li>
             <li>
-              <Link href="/meetings">모임</Link>
+              <Link href="/meetings" aria-current={pathname.startsWith('/meetings') ? 'page' : undefined}>모임</Link>
             </li>
             <li>
-              <Link href="/map">모임 지도</Link>
+              <Link href="/map" aria-current={pathname.startsWith('/map') ? 'page' : undefined}>모임 지도</Link>
             </li>
           </ul>
         )}

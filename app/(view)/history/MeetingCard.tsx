@@ -16,10 +16,9 @@ export default function MeetingCard({ meeting, isPast = false }: { meeting: Meet
   return (
     <article className={`${styles.card} ${isPast ? styles['past-meeting'] : ''}`}>
       <div className={styles.cardContent}>
-        <figure className={styles.imageWrapper}>
-          <Image className={styles.characterImage} src={imageUrl} width={130} height={130} alt="모임 대표 이미지" unoptimized />
-          <figcaption className="sr-only">모임 대표 이미지</figcaption>
-        </figure>
+        <div className={styles.imageWrapper}>
+          <Image className={styles.characterImage} src={imageUrl} width={130} height={130} alt={`${meeting.name} 모임 대표 이미지`} unoptimized />
+        </div>
         <div className={styles.infoWrapper}>
           <h2 className={styles.cardTitle}>{meeting.name}</h2>
           <ul className={styles.infoList}>
@@ -52,8 +51,8 @@ export default function MeetingCard({ meeting, isPast = false }: { meeting: Meet
           </ul>
         </div>
       </div>
-      <Link href={`/meetings/${meeting._id}`} className={styles.arrowIcon}>
-        <Image src="/icon/arrow.svg" alt="상세보기" width={19} height={12} />
+      <Link href={`/meetings/${meeting._id}`} className={styles.arrowIcon} aria-label={`${meeting.name} 상세보기`}>
+        <Image src="/icon/arrow.svg" alt="" width={19} height={12} />
       </Link>
     </article>
   );

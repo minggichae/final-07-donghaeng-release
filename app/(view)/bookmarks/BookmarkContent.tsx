@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import style from './Bookmarks.module.css';
 import useUserStore from '@/zustand/userStore';
 import { getUserBookmarksList } from '@/lib/bookmarks';
 import { Bookmarks } from '@/types/bookmarks';
-import BookmarkSwiper from './BookmarkSwiper';
+
+const BookmarkSwiper = dynamic(() => import('./BookmarkSwiper'), { ssr: false });
 
 export default function BookmarkContent() {
   const { user } = useUserStore();
@@ -45,12 +47,28 @@ export default function BookmarkContent() {
     fetchBookmarks();
   }, [hasHydrated, accessToken, router]);
 
-  if (!hasHydrated || isLoading) return null;
+  if (!hasHydrated || isLoading) {
+    return (
+      <div className={style['skeleton-list']}>
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className={style['skeleton-card']}>
+            <div className={style['skeleton-img']} />
+            <div className={style['skeleton-info']}>
+              <div className={style['skeleton-title']} />
+              <div className={style['skeleton-line']} />
+              <div className={style['skeleton-line']} />
+              <div className={style['skeleton-line-short']} />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   if (!accessToken) return null;
 
   if (isEmpty) {
-    return <div className={style.empty}>북마크한 모임이 없습니다.</div>;
+    return <p className={style.empty}>북마크한 모임이 없습니다.</p>;
   }
 
   return <BookmarkSwiper bookmarks={bookmarks} />;

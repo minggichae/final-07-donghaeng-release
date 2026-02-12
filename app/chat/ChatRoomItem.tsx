@@ -40,9 +40,9 @@ export default function ChatRoomItem({ room, isActive, onSelect, onLeave }: Chat
   };
 
   return (
-    <div onClick={() => onSelect(String(room._id))} className={`${styles.item} ${isActive ? styles.itemActive : ''}`}>
-      <button onClick={handleLeave} className={styles.leaveButton} title="나가기">
-        <svg className={styles.leaveButtonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div role="button" tabIndex={0} onClick={() => onSelect(String(room._id))} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(String(room._id)); } }} aria-label={`${displayName} 채팅방 선택`} className={`${styles.item} ${isActive ? styles.itemActive : ''}`}>
+      <button onClick={handleLeave} className={styles.leaveButton} aria-label="채팅방 나가기">
+        <svg className={styles.leaveButtonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>

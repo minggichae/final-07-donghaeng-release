@@ -24,7 +24,6 @@
 }
 .row {
   display: flex;
-  justify-content: space-between;
 }
 
 /* 사이드바 스타일 */
@@ -54,6 +53,7 @@
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.2s ease;
+  text-align: left;
 }
 
 .categoryItem:hover,
@@ -219,6 +219,8 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  margin-left: auto;
+  flex-grow: 1;
 }
 
 /* 모임 카드 그리드 */
@@ -259,7 +261,6 @@
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
-  background-image: url('/images/img2.png');
   background-size: cover;
   background-position: center;
   flex-shrink: 0;
@@ -625,5 +626,105 @@
   }
   .cardImage {
     height: 100px;
+  }
+}
+
+/* 스켈레톤 UI */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeletonCard {
+  width: 100%;
+  max-width: 380px;
+  min-height: 350px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonImage {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 25px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeletonContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+  flex: 1;
+}
+
+.skeletonTitle {
+  width: 60%;
+  height: 24px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeletonMeta {
+  width: 80%;
+  height: 18px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeletonMetaShort {
+  width: 40%;
+  height: 18px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+@media (max-width: 1024px) {
+  .skeletonCard {
+    flex-direction: row;
+    max-width: 100%;
+    min-height: 138px;
+    padding: 0;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .skeletonImage {
+    width: 30%;
+    min-width: 120px;
+    height: 150px;
+    aspect-ratio: auto;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+
+  .skeletonContent {
+    flex: 1;
+    padding-left: 20px;
+    margin-top: 0;
+    justify-content: center;
+    min-height: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skeletonImage {
+    width: 45%;
+    min-width: 100px;
+    aspect-ratio: 1/1;
+    height: auto;
   }
 }

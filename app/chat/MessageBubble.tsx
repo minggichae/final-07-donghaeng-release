@@ -22,7 +22,7 @@ export default function MessageBubble({ message, isMe, sender }: MessageBubblePr
     <div className={`${styles.row} ${isMe ? styles.rowMe : styles.rowOther}`}>
       <div className={`${styles.content} ${isMe ? styles.contentMe : styles.contentOther}`}>
         {/* 상대방 메시지일 경우에만 프로필 이미지 표시 */}
-        {!isMe && <Image src={displayImage} alt="Profile" width={32} height={32} className={styles.senderAvatar} />}
+        {!isMe && <Image src={displayImage} alt={`${sender?.name || '상대방'} 프로필`} width={32} height={32} className={styles.senderAvatar} />}
         {/* 메시지 말풍선 */}
         <div className={`${styles.bubble} ${isMe ? styles.bubbleMe : styles.bubbleOther}`}>
           <p className={styles.text}>{message.content}</p>
@@ -30,7 +30,7 @@ export default function MessageBubble({ message, isMe, sender }: MessageBubblePr
           {/* 메시지 부가 정보 (시간, 읽음 상태) */}
           <div className={`${styles.meta} ${isMe ? styles.metaMe : styles.metaOther}`}>
             {/* 내가 보낸 메시지인데 상대방이 아직 안 읽었을 때만 '1' 표시 */}
-            {isMe && message.readUserIds && message.readUserIds.length < 2 && <span className={styles.unreadIndicator}>1</span>}
+            {isMe && message.readUserIds && message.readUserIds.length < 2 && <span className={styles.unreadIndicator} aria-label="읽지 않음">1</span>}
             <span className={styles.time}>{formatTime(message.createdAt)}</span>
           </div>
         </div>

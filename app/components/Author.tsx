@@ -15,6 +15,7 @@ export default function Author({ meeting, children, className }: AuthorProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const authorRef = useRef<HTMLDivElement>(null);
 
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (authorRef.current && !authorRef.current.contains(event.target as Node)) {
@@ -29,9 +30,9 @@ export default function Author({ meeting, children, className }: AuthorProps) {
 
   return (
     <div className={`${styles.authorContainer} ${className ?? ''}`} ref={authorRef}>
-      <div className={children ? styles.authorTriggerCustom : styles.authorTrigger} onClick={() => setShowTooltip(!showTooltip)}>
+      <button type="button" className={children ? styles.authorTriggerCustom : styles.authorTrigger} onClick={() => setShowTooltip(!showTooltip)} aria-expanded={showTooltip} aria-label={`${meeting.name} 작성자 메뉴`}>
         {children ?? meeting.name}
-      </div>
+      </button>
       {showTooltip && (
         <div className={styles.tooltip}>
           <div className={styles.tooltipContent}>

@@ -209,6 +209,10 @@
       cursor: pointer;
     }
   }
+
+  .btn {
+    width: 70px;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -285,4 +289,106 @@
   .footer-wrapper {
     display: block;
   }
+
+  .applicant-div-skelton {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 95px;
+    width: 100%;
+    padding: 20px;
+  }
+
+  div.profile-img-desktop {
+    background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+    background-size: 800px 100%;
+    animation: shimmer 1.5s infinite ease-in-out;
+  }
+
+  .name {
+    width: 120px;
+    height: 32px;
+  }
+
+  .btn {
+    width: 100px;
+    height: 35px;
+  }
+
+  .question {
+    height: 24px;
+  }
+}
+
+/* 스켈레톤 UI */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+div.profile-img-mobile {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+.applicant-div-skelton {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-white);
+  border-radius: 25px;
+  border: 3px solid var(--bg-gray-25);
+}
+
+.name {
+  width: 80px;
+  height: 32px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.bpm {
+  width: 50px;
+  height: 29px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.btn {
+  width: 70px;
+  height: 30px;
+  border-radius: 25px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.question {
+  width: 60%;
+  height: 18px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  display: flex;
+  align-self: self-start;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.answer {
+  width: 100%;
+  height: 150px;
+  border-radius: 25px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
 }

@@ -220,6 +220,17 @@
     padding-inline: 20px;
   }
 
+  .none-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-family: var(--danger-font);
+    color: var(--text-gray);
+    font-size: 14px;
+    padding-left: 10px;
+  }
+
   .meeting-list {
     display: block;
     border: 5px solid var(--border-navy);

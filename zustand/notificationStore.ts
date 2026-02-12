@@ -11,6 +11,10 @@ interface NotiStoreState {
   notifications: Notification[];
   // 알림 목록을 설정
   setNotifications: (notifications: Notification[]) => void;
+  // 알림 데이터 수신 완료 여부
+  isLoaded: boolean;
+  // 알림 데이터 수신 완료 설정
+  setIsLoaded: (loaded: boolean) => void;
 }
 // 실제 스토어를 생성 후 내보내기
 const useNotiStore = create<NotiStoreState>((set) => ({
@@ -21,6 +25,9 @@ const useNotiStore = create<NotiStoreState>((set) => ({
   notifications: [],
   // 알림 목록을 상태에 업데이트하는 함수
   setNotifications: (notifications) => set({ notifications }),
+  // 초기 데이터 로딩 완료 여부
+  isLoaded: false,
+  setIsLoaded: (loaded) => set({ isLoaded: loaded }),
 }));
 
 export default useNotiStore;

@@ -18,6 +18,14 @@ export const metadata: Metadata = {
     siteName: 'Moa',
     locale: 'ko_KR',
     type: 'website',
+    images: [
+      {
+        url: '/images/og-img.png',
+        width: 1200,
+        height: 630,
+        alt: 'Moa 모임 플랫폼 대표 이미지',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',

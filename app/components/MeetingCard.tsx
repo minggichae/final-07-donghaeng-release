@@ -47,23 +47,22 @@ export function MeetingCard({ meeting: initialMeeting, meetingId }: MeetingCardP
 
   return (
     <article className={style.card}>
-      <div className={style.bookmarkIcon} aria-label="북마크">
+      <div className={style.bookmarkIcon}>
         <BookmarkButton meetingId={meeting._id} width={23} height={29} />
       </div>
       <div className={style.cardContent}>
-        <figure className={style.imageWrapper}>
+        <div className={style.imageWrapper}>
           <div
             className={style.characterImage}
             role="img"
-            aria-label="모임 대표 이미지"
+            aria-label={`${meeting.name} 모임 대표 이미지`}
             style={{
               backgroundImage: meeting.mainImages?.[0]?.path ? `url(${meeting.mainImages[0].path})` : 'none',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
           ></div>
-          <figcaption className={'sr-only'}>모임 대표 이미지</figcaption>
-        </figure>
+        </div>
         <div className={style.infoWrapper}>
           <h2 className={style.cardTitle}>{meeting.name}</h2>
           <ul className={style.infoList}>
@@ -98,8 +97,8 @@ export function MeetingCard({ meeting: initialMeeting, meetingId }: MeetingCardP
           </ul>
         </div>
       </div>
-      <Link href={`/meetings/${meeting._id}`} className={style.arrowIcon}>
-        <Image src="/icon/arrow.svg" alt="상세보기" width={20} height={20} />
+      <Link href={`/meetings/${meeting._id}`} className={style.arrowIcon} aria-label={`${meeting.name} 상세보기`}>
+        <Image src="/icon/arrow.svg" alt="" width={20} height={20} />
       </Link>
     </article>
   );

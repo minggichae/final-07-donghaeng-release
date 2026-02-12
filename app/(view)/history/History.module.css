@@ -269,3 +269,106 @@
     display: block;
   }
 }
+/* 스켈레톤 UI */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.skeleton-card {
+  width: calc(100% - 30px);
+  height: 225px;
+  background-color: var(--bg-white);
+  border: 5px solid var(--bg-gray-25);
+  border-radius: 25px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.skeleton-img {
+  width: 26vw;
+  max-width: 130px;
+  height: 130px;
+  margin-right: 20px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeleton-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-title {
+  width: 55%;
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeleton-line {
+  width: 40%;
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeleton-line-short {
+  width: 30%;
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-gray-25) 25%, var(--bg-gray) 50%, var(--bg-gray-25) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+@media (min-width: 1024px) {
+  .skeleton-card {
+    width: 767px;
+    max-width: 767px;
+    height: 350px;
+    padding: 40px;
+  }
+
+  .skeleton-img {
+    max-width: 240px;
+    height: 240px;
+  }
+
+  .skeleton-title {
+    height: 26px;
+  }
+
+  .skeleton-line {
+    height: 16px;
+  }
+
+  .skeleton-line-short {
+    height: 16px;
+  }
+
+  .skeleton-card:not(:first-child) {
+    display: none;
+  }
+}

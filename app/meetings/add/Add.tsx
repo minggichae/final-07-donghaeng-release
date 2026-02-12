@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { ActionState, createMeeting } from '@/actions/meetings';
 import { uploadFile } from '@/actions/file';
 import { ClipLoader } from 'react-spinners';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Add() {
   const router = useRouter();
@@ -52,13 +53,13 @@ export default function Add() {
 
     // 파일 크기 검증 (5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('이미지 크기는 5MB 이하여야 합니다.');
+      toast.error('이미지 크기는 5MB 이하여야 합니다.');
       return;
     }
 
     // 파일 타입 검증
     if (!file.type.startsWith('image/')) {
-      alert('이미지 파일만 업로드 가능합니다.');
+      toast.error('이미지 파일만 업로드 가능합니다.');
       return;
     }
 
@@ -82,12 +83,12 @@ export default function Add() {
         });
         setImgUrl(result.item[0].path);
       } else {
-        alert('이미지 업로드에 실패했습니다.');
+        toast.error('이미지 업로드에 실패했습니다.');
         setImagePreview('');
       }
     } catch (error) {
       console.error('이미지 업로드 오류:', error);
-      alert('이미지 업로드 중 오류가 발생했습니다.');
+      toast.error('이미지 업로드 중 오류가 발생했습니다.');
       setImagePreview('');
     } finally {
       setIsUploading(false);
@@ -118,7 +119,7 @@ export default function Add() {
     console.log('user:', user);
 
     if (!user || !user.token || !user.token.accessToken) {
-      alert('로그인이 필요합니다.');
+      toast.error('로그인이 필요합니다.');
       router.push('/login');
       return;
     }
@@ -163,7 +164,7 @@ export default function Add() {
         }
       } catch (error) {
         console.error('기본 이미지 업로드 실패:', error);
-        alert('이미지를 선택해주세요!');
+        toast.error('이미지를 선택해주세요!');
         return;
       }
     }
@@ -199,15 +200,16 @@ export default function Add() {
     if (!state) return;
 
     if (state.ok) {
-      alert('모임이 성공적으로 등록되었습니다.');
+      toast.success('모임이 성공적으로 등록되었습니다.');
       // redirect는 Server Action에서 처리됨
     } else if (state.message) {
-      alert(state.message);
+      toast.error(state.message);
     }
   }, [state]);
 
   return (
     <div className={style['wrap']}>
+      <Toaster position="top-center" />
       <div className={style['add-wrap']}>
         <form className={style['meetings-create']} onSubmit={handleSubmit}>
           <div className={style['meetings-add']}>
@@ -244,7 +246,7 @@ export default function Add() {
                   <option value="반려동물">반려동물</option>
                   <option value="자동차 / 바이크">자동차 / 바이크</option>
                 </select>
-                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path
                     d="M8.09227 11.5606C8.59433 12.1465 9.40968 12.1465 9.91175 11.5606L17.6235 2.56239C18.1255 1.97657 18.1255 1.02519 17.6235 0.439367C17.1214 -0.146456 16.306 -0.146456 15.804 0.439367L9 8.37844L2.19603 0.444053C1.69396 -0.14177 0.878612 -0.14177 0.376548 0.444053C-0.125516 1.02988 -0.125516 1.98125 0.376548 2.56708L8.08825 11.5653L8.09227 11.5606Z"
                     fill="black"
@@ -275,7 +277,7 @@ export default function Add() {
                   </button>
                 ) : (
                   <button type="button" className={style['ractingle']} onClick={() => document.getElementById('meetings-img')?.click()} style={{ cursor: 'pointer' }} aria-label="이미지 추가">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path
                         d="M10.2857 1.28571C10.2857 0.574554 9.71116 0 9 0C8.28884 0 7.71429 0.574554 7.71429 1.28571V7.71429H1.28571C0.574554 7.71429 0 8.28884 0 9C0 9.71116 0.574554 10.2857 1.28571 10.2857H7.71429V16.7143C7.71429 17.4254 8.28884 18 9 18C9.71116 18 10.2857 17.4254 10.2857 16.7143V10.2857H16.7143C17.4254 10.2857 18 9.71116 18 9C18 8.28884 17.4254 7.71429 16.7143 7.71429H10.2857V1.28571Z"
                         fill="#fff"
@@ -309,7 +311,7 @@ export default function Add() {
                     <option value="여">여</option>
                     <option value="무관">무관</option>
                   </select>
-                  <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path
                       d="M8.09227 11.5606C8.59433 12.1465 9.40968 12.1465 9.91175 11.5606L17.6235 2.56239C18.1255 1.97657 18.1255 1.02519 17.6235 0.439367C17.1214 -0.146456 16.306 -0.146456 15.804 0.439367L9 8.37844L2.19603 0.444053C1.69396 -0.14177 0.878612 -0.14177 0.376548 0.444053C-0.125516 1.02988 -0.125516 1.98125 0.376548 2.56708L8.08825 11.5653L8.09227 11.5606Z"
                       fill="black"
@@ -328,7 +330,7 @@ export default function Add() {
                     <option value="30">30대</option>
                     <option value="40">40대 이상</option>
                   </select>
-                  <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path
                       d="M8.09227 11.5606C8.59433 12.1465 9.40968 12.1465 9.91175 11.5606L17.6235 2.56239C18.1255 1.97657 18.1255 1.02519 17.6235 0.439367C17.1214 -0.146456 16.306 -0.146456 15.804 0.439367L9 8.37844L2.19603 0.444053C1.69396 -0.14177 0.878612 -0.14177 0.376548 0.444053C-0.125516 1.02988 -0.125516 1.98125 0.376548 2.56708L8.08825 11.5653L8.09227 11.5606Z"
                       fill="black"
@@ -345,14 +347,14 @@ export default function Add() {
                 (0~300)명
               </label>
               <div className={style['counter-wrapper']}>
-                <button type="button" className={style['count-btn, descrase']} onClick={handleDecrease}>
-                  <svg width="18" height="3" viewBox="0 0 18 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <button type="button" className={style['count-btn, descrase']} onClick={handleDecrease} aria-label="인원 감소">
+                  <svg width="18" height="3" viewBox="0 0 18 3" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M0 1.5C0 0.670312 0.574554 0 1.28571 0H16.7143C17.4254 0 18 0.670312 18 1.5C18 2.32969 17.4254 3 16.7143 3H1.28571C0.574554 3 0 2.32969 0 1.5Z" fill="#323577" />
                   </svg>
                 </button>
                 <input type="number" id="count-input" name="count-input" min="0" max="300" value={count} onChange={handleCountChange} />
-                <button type="button" className={style['count-btn, increase']} onClick={handleIncrease}>
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <button type="button" className={style['count-btn, increase']} onClick={handleIncrease} aria-label="인원 증가">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path
                       d="M10.2857 1.28571C10.2857 0.574554 9.71116 0 9 0C8.28884 0 7.71429 0.574554 7.71429 1.28571V7.71429H1.28571C0.574554 7.71429 0 8.28884 0 9C0 9.71116 0.574554 10.2857 1.28571 10.2857H7.71429V16.7143C7.71429 17.4254 8.28884 18 9 18C9.71116 18 10.2857 17.4254 10.2857 16.7143V10.2857H16.7143C17.4254 10.2857 18 9.71116 18 9C18 8.28884 17.4254 7.71429 16.7143 7.71429H10.2857V1.28571Z"
                       fill="#323577"

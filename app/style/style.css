@@ -41,6 +41,7 @@
   --bg-pink: var(--c-pink-200);
   --bg-darksky: var(--c-slateblue-300);
   --bg-gray: var(--c-gray);
+  --bg-gray-25: var(--c-gray-25);
 
   /* Text */
   --text-red: var(--c-red-600);
@@ -60,6 +61,7 @@
   --border-lavender: var(--c-lavender-200);
   --border-white: var(--c-white);
   --border-gray: var(--c-gray);
+  --border-gray-25: var(--c-gray-25);
   --border-navy: var(--c-indigo-900);
   --border-sky: var(--c-blue-200);
   --border-darksky: var(--c-slateblue-300);
