@@ -4,7 +4,7 @@ import ApplyForm from './ApplyForm';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '모임 신청 - Moa',
+  title: '모임 신청',
   description: '모임에 신청하고 참여하세요.',
   robots: { index: false, follow: false },
 };

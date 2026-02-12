@@ -4,7 +4,7 @@ import DefaultLayout from '@/app/components/DefaultLayout';
 import ManageContent from './ManageContent';
 
 export const metadata: Metadata = {
-  title: '등록 모임 관리 - Moa',
+  title: '등록 모임 관리',
   description: '내가 등록한 모임을 관리하고 신청자를 확인하세요.',
   robots: { index: false, follow: false },
 };

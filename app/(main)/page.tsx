@@ -3,15 +3,12 @@ import styles from './Main.module.css';
 import DefaultLayout from '@/app/components/DefaultLayout';
 import SearchAiSection from './SearchAiSection';
 import MeetingsContent from './MeetingsContent';
+import type { Metadata } from 'next';
 
-// export const metadata: Metadata = {
-//   title: '홈',
-//   description: 'Moa에서 운동, 요리, 문화, 게임 등 다양한 카테고리의 모임을 찾아보세요. AI 추천으로 나에게 맞는 모임을 발견할 수 있습니다.',
-//   openGraph: {
-//     title: '홈 | Moa',
-//     description: 'Moa에서 다양한 카테고리의 모임을 찾아보세요.',
-//   },
-// };
+export const metadata: Metadata = {
+  title: '홈',
+  description: 'Moa에서 운동, 요리, 문화, 게임 등 다양한 카테고리의 모임을 찾아보세요. AI 추천으로 나에게 맞는 모임을 발견할 수 있습니다.',
+};
 
 export default function Main() {
   return (

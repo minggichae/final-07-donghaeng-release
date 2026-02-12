@@ -8,10 +8,6 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: '모임 리스트',
   description: '다양한 카테고리의 모임을 검색하고 찾아보세요. 운동, 요리, 문화, 게임 등 관심 있는 모임에 참여할 수 있습니다.',
-  openGraph: {
-    title: '모임 리스트 | Moa',
-    description: '다양한 카테고리의 모임을 검색하고 찾아보세요.',
-  },
 };
 
 const categoryNameMap: Record<string, string> = {

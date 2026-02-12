@@ -2,7 +2,7 @@ import Notifications from './Notifications';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '알림 - Moa',
+  title: '알림',
   description: '모임 관련 알림을 확인하세요.',
   robots: { index: false, follow: false },
 };
